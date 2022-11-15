@@ -8,7 +8,7 @@ import time
 import pandas as pd 
 import streamlit as st
 
-@st.cache(persist=True)
+@st.cache(allow_output_mutation=True)
 def df_builder_estagios():
     url = "https://www.linkedin.com/jobs/search?keywords=Estagio&location=Brazil&locationId=&geoId=106057199&f_TPR=&f_WT=2&position=1&pageNum=0"
 
