@@ -20,7 +20,7 @@ def df_builder_estagios():
     options.add_argument("--disable-features=NetworkService")
     options.add_argument("--window-size=1920x1080")
     options.add_argument("--disable-features=VizDisplayCompositor")    
-    wd = webdriver.Chrome(executable_path='./chromedriver.exe', options=options)
+    wd = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
     wd.get(url)

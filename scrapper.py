@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 import time
 import pandas as pd 
@@ -21,7 +23,7 @@ def df_builder():
     options.add_argument("--disable-features=NetworkService")
     options.add_argument("--window-size=1920x1080")
     options.add_argument("--disable-features=VizDisplayCompositor")    
-    wd = webdriver.Chrome(executable_path='./chromedriver.exe', options=options)
+    wd = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
     wd.get(url)
