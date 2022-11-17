@@ -10,13 +10,14 @@ import time
 import pandas as pd 
 import streamlit as st
 
+
 @st.cache(allow_output_mutation=True)
 def df_builder(): 
     url = "https://www.linkedin.com/jobs/search?keywords=Desenvolvedor%20J%C3%BAnior&location=Brazil&locationId=&geoId=106057199&f_TPR=r2592000&f_WT=2&f_E=1%2C2&position=1&pageNum=0"
 
 
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless") 
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
@@ -31,6 +32,8 @@ def df_builder():
 
     number_of_jobs = int(wd.find_element(By.CLASS_NAME, "results-context-header__job-count").text)
 
+   
+
     i = 2
     while i <= int(number_of_jobs/25)+1:
         wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -40,7 +43,7 @@ def df_builder():
             time.sleep(3)
         except:
             pass
-            time.sleep(3)
+            time.sleep(2)
 
 
 
@@ -51,7 +54,7 @@ def df_builder():
     
     jobs_title= []
     empresa = []
-    localizacao = []
+   
     data = []
     link = []
 
@@ -63,14 +66,10 @@ def df_builder():
         jobs_title.append(job_title0)
 
         empresa0 = job.find_element(By.TAG_NAME, "h4").text
-        empresa.append(empresa0)
-            
-        localizacao0 = job.find_element(By.CLASS_NAME, "job-search-card__location").text
-        localizacao.append(localizacao0)
-
-        
-        data0 = job.find_element(By.TAG_NAME, 'time').get_attribute("datetime")
-        data.append(data0)
+        empresa.append(empresa0)          
+           
+        data1 = job.find_element(By.TAG_NAME, 'time').get_attribute("datetime")
+        data.append(data1)
             
         link0 = job.find_element(By.TAG_NAME, "a").get_attribute("href")
         link.append(link0)
@@ -79,5 +78,5 @@ def df_builder():
 
 
 
-    df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Localização": localizacao, "Data Postada": data, "Link": link})   
+    df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data_Postada": data, "Link": link})   
     return df_jobs
