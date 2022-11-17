@@ -5,17 +5,22 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
+
+
+
 import time
 import pandas as pd 
 import streamlit as st
 
 
+
 @st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
-def df_builder_estagios():
-    url = "https://www.linkedin.com/jobs/search?keywords=Estagio&location=Brasil&locationId=&geoId=106057199&f_TPR=r2592000&f_WT=2&position=1&pageNum=0"
+def df_builder_custom(param): 
+    url = "https://www.linkedin.com/jobs/search?keywords={}&location=Brazil&locationId=&geoId=106057199&f_TPR=r2592000&f_WT=2&f_E=1%2C2&position=1&pageNum=0".format(param)
+
 
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless") 
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
@@ -29,8 +34,8 @@ def df_builder_estagios():
 
 
     number_of_jobs = int(wd.find_element(By.CLASS_NAME, "results-context-header__job-count").text)
-    
 
+    
     
     i = 1
     scrap_text = st.empty()
@@ -58,17 +63,18 @@ def df_builder_estagios():
     bar.empty()
     scrap_text.empty()
 
+
     jobs_list = wd.find_element(By.CLASS_NAME, "jobs-search__results-list")
     jobs = jobs_list.find_elements(By.TAG_NAME, "li")
 
 
     
     jobs_title= []
-    empresa = []    
+    empresa = []   
     data = []
     link = []
 
-
+    
     j = 1
     prep_test = st.empty()
     prep_test.write("Preparing Data Frame")
@@ -95,8 +101,6 @@ def df_builder_estagios():
     bar2.empty()
     prep_test.empty()
 
-
     
     df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
     return df_jobs
-

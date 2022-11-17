@@ -6,12 +6,15 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 
+
+
 import time
 import pandas as pd 
 import streamlit as st
 
 
-@st.cache(allow_output_mutation=True)
+
+@st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
 def df_builder(): 
     url = "https://www.linkedin.com/jobs/search?keywords=Desenvolvedor%20J%C3%BAnior&location=Brazil&locationId=&geoId=106057199&f_TPR=r2592000&f_WT=2&f_E=1%2C2&position=1&pageNum=0"
 
@@ -32,10 +35,21 @@ def df_builder():
 
     number_of_jobs = int(wd.find_element(By.CLASS_NAME, "results-context-header__job-count").text)
 
-   
+    
+    
+    i = 1
+    scrap_text = st.empty()
+    scrap_text.write("Scrapping Linkedin Jobs Page")
 
-    i = 2
+    bar = st.empty()
+    bar.progress(0)
     while i <= int(number_of_jobs/25)+1:
+        
+        progress_bar = round((i* (100/ (number_of_jobs/25))))
+        if progress_bar > 100:
+            progress_bar = 100
+        bar.progress(progress_bar)
+
         wd.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         i = i +1
         try:
@@ -46,6 +60,8 @@ def df_builder():
             time.sleep(2)
 
 
+    bar.empty()
+    scrap_text.empty()
 
     jobs_list = wd.find_element(By.CLASS_NAME, "jobs-search__results-list")
     jobs = jobs_list.find_elements(By.TAG_NAME, "li")
@@ -53,15 +69,20 @@ def df_builder():
 
     
     jobs_title= []
-    empresa = []
-   
+    empresa = []   
     data = []
     link = []
 
-
     
-    for job in jobs:   
-            
+    j = 1
+    prep_test = st.empty()
+    prep_test.write("Preparing Data Frame")
+    bar2 = st.empty()
+    bar2.progress(0)
+    for job in jobs: 
+           
+        bar_progress = round((j * (100/len(jobs))))
+        bar2.progress(bar_progress)
         job_title0 = job.find_element(By.TAG_NAME, "h3").text
         jobs_title.append(job_title0)
 
@@ -73,10 +94,12 @@ def df_builder():
             
         link0 = job.find_element(By.TAG_NAME, "a").get_attribute("href")
         link.append(link0)
-
+        j += 1
     
 
+    bar2.empty()
+    prep_test.empty()
 
 
-    df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data_Postada": data, "Link": link})   
+    df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
     return df_jobs
