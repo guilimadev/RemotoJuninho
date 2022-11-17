@@ -1,10 +1,16 @@
 import pandas as pd
 import streamlit as st
 import numpy as np
+import winsound
+
+
 
 from estagioscrapper import df_builder_estagios
 from scrapper import df_builder
 from custom import df_builder_custom
+
+from PIL import Image
+
 
 if "visibility" not in st.session_state:
     st.session_state.visibility = "visible"
@@ -12,12 +18,18 @@ if "visibility" not in st.session_state:
 
 
 st.set_page_config(layout="wide", page_title="Juninho From Home", page_icon=":house:")
- 
-dev_jr, estagio, custom = st.tabs(["Desenvolvedor Júnior", "Estágio Remoto", "Custom Search"])
 
-with dev_jr:   
-   
-    df_jobs = df_builder()    
+dev_jr, estagio, custom = st.tabs(["Junior Developer", "Remote Intern", "Custom Search"])
+
+
+with st.sidebar:    
+    st.title("Juninho From Home")
+    image = Image.open('perfil2.jpg')
+    st.image(image)
+    st.write("Hello (world!), I'm Guilherme, IT Student at the UFRN and I developed this app as I was studying some python, web scraping and streamlit. Still need a lot of improvements but I'm work on it!")
+    st.write("Feel free to use!")
+with dev_jr:  
+    df_jobs = df_builder()
     df_jobs = df_jobs.sort_values(by=['Data'], ascending=False)
     
     
@@ -51,14 +63,14 @@ with dev_jr:
 
     if company_selected == "All":
         if job_selected == "All":
-            st.dataframe(df_jobs)
+            st.dataframe(df_jobs, 2000)
         else:
-            st.dataframe(df_jobs[df_jobs['Vaga'] == job_selected]) 
+            st.dataframe(df_jobs[df_jobs['Vaga'] == job_selected], 2000) 
     else:
         if job_selected == "All":
-            st.dataframe(df_jobs[df_jobs['Empresa'] == company_selected]) 
+            st.dataframe(df_jobs[df_jobs['Empresa'] == company_selected], 2000) 
         else:
-            st.dataframe(df_jobs[(df_jobs['Empresa'] == company_selected) & (df_jobs['Vaga'] == job_selected)])
+            st.dataframe(df_jobs[(df_jobs['Empresa'] == company_selected) & (df_jobs['Vaga'] == job_selected)], 2000)
 
 with estagio:  
     
@@ -95,19 +107,21 @@ with estagio:
 
     if company_selected == "All":
         if job_selected == "All":
-            st.dataframe(df_estagio)
+            st.dataframe(df_estagio, 2000)
         else:
-            st.dataframe(df_estagio[df_estagio['Vaga'] == job_selected]) 
+            st.dataframe(df_estagio[df_estagio['Vaga'] == job_selected], 2000) 
     else:
         if job_selected == "All":
-            st.dataframe(df_estagio[df_estagio['Empresa'] == company_selected]) 
+            st.dataframe(df_estagio[df_estagio['Empresa'] == company_selected], 2000) 
         else:
-            st.dataframe(df_estagio[(df_estagio['Empresa'] == company_selected) & (df_estagio['Vaga'] == job_selected)])
+            st.dataframe(df_estagio[(df_estagio['Empresa'] == company_selected) & (df_estagio['Vaga'] == job_selected)], 2000)
     
 
 with custom:
-    params = st.text_input("Pesquisa", '')
-    if params != '':
+    params = st.text_input("Type your search and press enter", '')
+    if params != '':   
+        
+        print("\a")
         df_estagio = df_builder_custom(params)    
         df_estagio = df_estagio.sort_values(by=['Data'], ascending=False)
         
@@ -141,12 +155,12 @@ with custom:
 
         if company_selected == "All":
             if job_selected == "All":
-                st.dataframe(df_estagio)
+                st.dataframe(df_estagio, 2000)
             else:
-                st.dataframe(df_estagio[df_estagio['Vaga'] == job_selected]) 
+                st.dataframe(df_estagio[df_estagio['Vaga'] == job_selected], 2000) 
         else:
             if job_selected == "All":
-                st.dataframe(df_estagio[df_estagio['Empresa'] == company_selected]) 
+                st.dataframe(df_estagio[df_estagio['Empresa'] == company_selected], 2000)
             else:
-                st.dataframe(df_estagio[(df_estagio['Empresa'] == company_selected) & (df_estagio['Vaga'] == job_selected)])
+                st.dataframe(df_estagio[(df_estagio['Empresa'] == company_selected) & (df_estagio['Vaga'] == job_selected)], 2000)
 

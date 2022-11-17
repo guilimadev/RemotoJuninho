@@ -49,7 +49,7 @@ def df_builder_estagios():
         i = i +1
         try:
             wd.find_element(By.XPATH, '//*[@id="main-content"]/section[2]/button').click()
-            time.sleep(3)
+            time.sleep(2)
         except:
             pass
             time.sleep(2)
@@ -99,4 +99,5 @@ def df_builder_estagios():
     
     df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
     return df_jobs
+    print("\a")
 

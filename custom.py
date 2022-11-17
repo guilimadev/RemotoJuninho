@@ -101,6 +101,7 @@ def df_builder_custom(param):
     bar2.empty()
     prep_test.empty()
 
-    
+
     df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
     return df_jobs
+    print("\a")
