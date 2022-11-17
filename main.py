@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 import numpy as np
-import winsound
+
 
 
 
@@ -121,7 +121,7 @@ with custom:
     params = st.text_input("Type your search and press enter", '')
     if params != '':   
         
-        print("\a")
+        
         df_estagio = df_builder_custom(params)    
         df_estagio = df_estagio.sort_values(by=['Data'], ascending=False)
         
