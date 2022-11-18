@@ -3,21 +3,27 @@ import streamlit as st
 import numpy as np
 
 
-
-
 from estagioscrapper import df_builder_estagios
 from scrapper import df_builder
 from custom import df_builder_custom
+from streamlit_autorefresh import st_autorefresh
+
+
 
 from PIL import Image
 
-
+st.set_page_config(layout="wide", page_title="Juninho From Home", page_icon=":house:")
 if "visibility" not in st.session_state:
     st.session_state.visibility = "visible"
     st.session_state.disabled = False
 
 
-st.set_page_config(layout="wide", page_title="Juninho From Home", page_icon=":house:")
+
+
+
+st_autorefresh(interval=1000 * 60 * 60 * 2, key="mainrefresher")
+
+
 
 dev_jr, estagio, custom = st.tabs(["Junior Developer", "Remote Intern", "Custom Search"])
 
@@ -28,8 +34,11 @@ with st.sidebar:
     st.image(image)
     st.write("Hello (world!), I'm Guilherme, IT Student at the UFRN and I developed this app as I was studying some python, web scraping and streamlit. Still need a lot of improvements but I'm work on it!")
     st.write("Feel free to use!")
-with dev_jr:  
-    df_jobs = df_builder()
+
+
+with dev_jr:
+      
+    df_jobs = df_builder()    
     df_jobs = df_jobs.sort_values(by=['Data'], ascending=False)
     
     

@@ -9,6 +9,11 @@ import time
 import pandas as pd 
 import streamlit as st
 
+from datetime import datetime
+from streamlit_autorefresh import st_autorefresh
+
+
+st_autorefresh(interval=3 * 60 * 1000, key="estagiorefresher")
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
 def df_builder_estagios():
@@ -96,7 +101,10 @@ def df_builder_estagios():
     prep_test.empty()
 
 
-    
+    now = datetime.now()
+    current_time = now.strftime("%d/%m/%Y - %H:%M:%S")
+    st.write("Last Update: ", current_time)
+
     df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
     return df_jobs
     print("\a")
