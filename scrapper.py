@@ -14,10 +14,7 @@ import pandas as pd
 import streamlit as st
 
 from datetime import datetime
-from streamlit_autorefresh import st_autorefresh
 
-
-st_autorefresh(interval=2 * 60 * 1000, key="jobsrefresher")
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
 def df_builder(): 
