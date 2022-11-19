@@ -6,7 +6,7 @@ import numpy as np
 from estagioscrapper import df_builder_estagios
 from scrapper import df_builder
 from custom import df_builder_custom
-from streamlit_autorefresh import st_autorefresh
+
 
 
 
@@ -21,7 +21,7 @@ if "visibility" not in st.session_state:
 
 
 
-st_autorefresh(interval=1000 * 60 * 60 * 2, key="mainrefresher")
+
 
 
 
@@ -37,12 +37,13 @@ with st.sidebar:
 
 
 with dev_jr:
-      
+    
     df_jobs = df_builder()    
+
     df_jobs = df_jobs.sort_values(by=['Data'], ascending=False)
     
     
-    st.write('Number of jobs founded: ' + str(len(df_jobs.index)))
+    st.write('Number of jobs found: ' + str(len(df_jobs.index)))
 
     listof_companys = np.empty(1)
     listof_companys = np.append(listof_companys, "All")
@@ -87,7 +88,7 @@ with estagio:
     df_estagio = df_estagio.sort_values(by=['Data'], ascending=False)
     
     
-    st.write('Number of jobs founded: ' + str(len(df_estagio.index)))
+    st.write('Number of jobs found: ' + str(len(df_estagio.index)))
 
     listof_companys = np.empty(1)
     listof_companys = np.append(listof_companys, "All")
@@ -127,12 +128,16 @@ with estagio:
     
 
 with custom:
-    params = st.text_input("Type your search and press enter", '')
+    coltext, colselect = st.columns(2)
+    with coltext:
+        params = st.text_input("Type your search and press enter", '')
+    with colselect:
+        location = st.selectbox('Select Location', options=('TESTE', 'Teste2'))
     if params != '':   
         
         
         df_estagio = df_builder_custom(params)    
-        df_estagio = df_estagio.sort_values(by=['Data'], ascending=False)
+        df_estagio = df_estagio.sort_values(by=['Date'], ascending=False)
         
         
         st.write('Number of jobs founded: ' + str(len(df_estagio.index)))
@@ -140,7 +145,7 @@ with custom:
         listof_companys = np.empty(1)
         listof_companys = np.append(listof_companys, "All")
         listof_companys = np.delete(listof_companys, 0)
-        listof_companys = np.append(listof_companys, df_estagio.Empresa.unique()) 
+        listof_companys = np.append(listof_companys, df_estagio.Company.unique()) 
 
         
         
@@ -153,7 +158,7 @@ with custom:
             listof_jobs = np.empty(1)
             listof_jobs  = np.append(listof_jobs, "All")
             listof_jobs  = np.delete(listof_jobs, 0)
-            listof_jobs  = np.append(listof_jobs, df_estagio[df_estagio['Empresa'] == company_selected].Vaga.unique())    
+            listof_jobs  = np.append(listof_jobs, df_estagio[df_estagio['Company'] == company_selected].Job.unique())    
             if company_selected != "All":       
                 job_selected = st.selectbox(options=listof_jobs, label="Select Job", key=5)
             
@@ -166,10 +171,10 @@ with custom:
             if job_selected == "All":
                 st.dataframe(df_estagio, 2000)
             else:
-                st.dataframe(df_estagio[df_estagio['Vaga'] == job_selected], 2000) 
+                st.dataframe(df_estagio[df_estagio['Job'] == job_selected], 2000) 
         else:
             if job_selected == "All":
-                st.dataframe(df_estagio[df_estagio['Empresa'] == company_selected], 2000)
+                st.dataframe(df_estagio[df_estagio['Company'] == company_selected], 2000)
             else:
-                st.dataframe(df_estagio[(df_estagio['Empresa'] == company_selected) & (df_estagio['Vaga'] == job_selected)], 2000)
+                st.dataframe(df_estagio[(df_estagio['Company'] == company_selected) & (df_estagio['Job'] == job_selected)], 2000)
 

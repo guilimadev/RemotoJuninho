@@ -12,7 +12,7 @@ import streamlit as st
 from datetime import datetime
 
 
-@st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
+@st.experimental_memo
 def df_builder_estagios():
     url = "https://www.linkedin.com/jobs/search?keywords=Estagio&location=Brasil&locationId=&geoId=106057199&f_TPR=r2592000&f_WT=2&position=1&pageNum=0"
 
@@ -104,5 +104,5 @@ def df_builder_estagios():
 
     df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
     return df_jobs
-    print("\a")
+    
 

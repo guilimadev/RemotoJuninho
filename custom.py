@@ -6,12 +6,11 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-
-
 import time
 import pandas as pd 
 import streamlit as st
 
+from datetime import datetime
 
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
@@ -73,6 +72,7 @@ def df_builder_custom(param):
     empresa = []   
     data = []
     link = []
+    local = []
 
     
     j = 1
@@ -95,13 +95,20 @@ def df_builder_custom(param):
             
         link0 = job.find_element(By.TAG_NAME, "a").get_attribute("href")
         link.append(link0)
+
+        local0 = job.find_element(By.XPATH, "//*[@id='main-content']/section[2]/ul/li[1]/div/div[2]/div/span").text
+        local.append(local0)
+
         j += 1
     
 
     bar2.empty()
     prep_test.empty()
 
+    now = datetime.now()
+    current_time = now.strftime("%d/%m/%Y - %H:%M:%S")
+    st.write("Last Update: ", current_time)
 
-    df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
+    df_jobs = pd.DataFrame({"Job": jobs_title, "Company": empresa, "Date": data, "Location": local , "Link": link})   
     return df_jobs
-    print("\a")
+    
