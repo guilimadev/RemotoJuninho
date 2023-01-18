@@ -128,9 +128,8 @@ with estagio:
     
 
 with custom:
-    coltext = st.columns(1)
-    with coltext:
-        params = st.text_input("Type your search and press enter", '')   
+   
+    params = st.text_input("Type your search and press enter", '')   
     if params != '':   
         
         
