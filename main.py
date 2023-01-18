@@ -128,11 +128,9 @@ with estagio:
     
 
 with custom:
-    coltext, colselect = st.columns(2)
+    coltext = st.columns(1)
     with coltext:
-        params = st.text_input("Type your search and press enter", '')
-    with colselect:
-        location = st.selectbox('Select Location', options=('TESTE', 'Teste2'))
+        params = st.text_input("Type your search and press enter", '')   
     if params != '':   
         
         
