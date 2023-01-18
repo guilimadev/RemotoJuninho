@@ -37,95 +37,95 @@ with st.sidebar:
 
 
 with dev_jr:
-    
-    df_jobs = df_builder()    
+    if st.button('Search'):
+        df_jobs = df_builder()    
 
-    df_jobs = df_jobs.sort_values(by=['Data'], ascending=False)
-    
-    
-    st.write('Number of jobs found: ' + str(len(df_jobs.index)))
+        df_jobs = df_jobs.sort_values(by=['Data'], ascending=False)
+        
+        
+        st.write('Number of jobs found: ' + str(len(df_jobs.index)))
 
-    listof_companys = np.empty(1)
-    listof_companys = np.append(listof_companys, "All")
-    listof_companys = np.delete(listof_companys, 0)
-    listof_companys = np.append(listof_companys, df_jobs.Empresa.unique()) 
+        listof_companys = np.empty(1)
+        listof_companys = np.append(listof_companys, "All")
+        listof_companys = np.delete(listof_companys, 0)
+        listof_companys = np.append(listof_companys, df_jobs.Empresa.unique()) 
 
-    
-    
+        
+        
 
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        company_selected = st.selectbox(options=listof_companys, label="Select Company")
-    with col2:
-        listof_jobs = np.empty(1)
-        listof_jobs  = np.append(listof_jobs, "All")
-        listof_jobs  = np.delete(listof_jobs, 0)
-        listof_jobs  = np.append(listof_jobs, df_jobs[df_jobs['Empresa'] == company_selected].Vaga.unique()) 
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            company_selected = st.selectbox(options=listof_companys, label="Select Company")
+        with col2:
+            listof_jobs = np.empty(1)
+            listof_jobs  = np.append(listof_jobs, "All")
+            listof_jobs  = np.delete(listof_jobs, 0)
+            listof_jobs  = np.append(listof_jobs, df_jobs[df_jobs['Empresa'] == company_selected].Vaga.unique()) 
 
-        if company_selected != "All":       
-            job_selected = st.selectbox(options=listof_jobs, label="Select Job")
-    
+            if company_selected != "All":       
+                job_selected = st.selectbox(options=listof_jobs, label="Select Job")
+        
+            else:
+                job_selected = st.selectbox(options=listof_jobs, label="Select Job", disabled=True)
+        
+
+
+        if company_selected == "All":
+            if job_selected == "All":
+                st.dataframe(df_jobs, 2000)
+            else:
+                st.dataframe(df_jobs[df_jobs['Vaga'] == job_selected], 2000) 
         else:
-            job_selected = st.selectbox(options=listof_jobs, label="Select Job", disabled=True)
-    
-
-
-    if company_selected == "All":
-        if job_selected == "All":
-            st.dataframe(df_jobs, 2000)
-        else:
-            st.dataframe(df_jobs[df_jobs['Vaga'] == job_selected], 2000) 
-    else:
-        if job_selected == "All":
-            st.dataframe(df_jobs[df_jobs['Empresa'] == company_selected], 2000) 
-        else:
-            st.dataframe(df_jobs[(df_jobs['Empresa'] == company_selected) & (df_jobs['Vaga'] == job_selected)], 2000)
+            if job_selected == "All":
+                st.dataframe(df_jobs[df_jobs['Empresa'] == company_selected], 2000) 
+            else:
+                st.dataframe(df_jobs[(df_jobs['Empresa'] == company_selected) & (df_jobs['Vaga'] == job_selected)], 2000)
 
 with estagio:  
-    
-    df_estagio = df_builder_estagios()    
-    df_estagio = df_estagio.sort_values(by=['Data'], ascending=False)
-    
-    
-    st.write('Number of jobs found: ' + str(len(df_estagio.index)))
-
-    listof_companys = np.empty(1)
-    listof_companys = np.append(listof_companys, "All")
-    listof_companys = np.delete(listof_companys, 0)
-    listof_companys = np.append(listof_companys, df_estagio.Empresa.unique()) 
-
-    
-    
-
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        company_selected = st.selectbox(options=listof_companys, label="Select Company", key=3)
-    with col2:
-        listof_jobs = np.empty(1)
-        listof_jobs  = np.append(listof_jobs, "All")
-        listof_jobs  = np.delete(listof_jobs, 0)
-        listof_jobs  = np.append(listof_jobs, df_estagio[df_estagio['Empresa'] == company_selected].Vaga.unique())    
-        if company_selected != "All":       
-            job_selected = st.selectbox(options=listof_jobs, label="Select Job", key=2)
+    if st.button('Search'):
+        df_estagio = df_builder_estagios()    
+        df_estagio = df_estagio.sort_values(by=['Data'], ascending=False)
         
-        else:
-            job_selected = st.selectbox(options=listof_jobs, label="Select Job", disabled=True, key=2)
+        
+        st.write('Number of jobs found: ' + str(len(df_estagio.index)))
+
+        listof_companys = np.empty(1)
+        listof_companys = np.append(listof_companys, "All")
+        listof_companys = np.delete(listof_companys, 0)
+        listof_companys = np.append(listof_companys, df_estagio.Empresa.unique()) 
+
+        
         
 
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            company_selected = st.selectbox(options=listof_companys, label="Select Company", key=3)
+        with col2:
+            listof_jobs = np.empty(1)
+            listof_jobs  = np.append(listof_jobs, "All")
+            listof_jobs  = np.delete(listof_jobs, 0)
+            listof_jobs  = np.append(listof_jobs, df_estagio[df_estagio['Empresa'] == company_selected].Vaga.unique())    
+            if company_selected != "All":       
+                job_selected = st.selectbox(options=listof_jobs, label="Select Job", key=2)
+            
+            else:
+                job_selected = st.selectbox(options=listof_jobs, label="Select Job", disabled=True, key=2)
+            
 
-    if company_selected == "All":
-        if job_selected == "All":
-            st.dataframe(df_estagio, 2000)
+
+        if company_selected == "All":
+            if job_selected == "All":
+                st.dataframe(df_estagio, 2000)
+            else:
+                st.dataframe(df_estagio[df_estagio['Vaga'] == job_selected], 2000) 
         else:
-            st.dataframe(df_estagio[df_estagio['Vaga'] == job_selected], 2000) 
-    else:
-        if job_selected == "All":
-            st.dataframe(df_estagio[df_estagio['Empresa'] == company_selected], 2000) 
-        else:
-            st.dataframe(df_estagio[(df_estagio['Empresa'] == company_selected) & (df_estagio['Vaga'] == job_selected)], 2000)
-    
+            if job_selected == "All":
+                st.dataframe(df_estagio[df_estagio['Empresa'] == company_selected], 2000) 
+            else:
+                st.dataframe(df_estagio[(df_estagio['Empresa'] == company_selected) & (df_estagio['Vaga'] == job_selected)], 2000)
+        
 
 with custom:
    
