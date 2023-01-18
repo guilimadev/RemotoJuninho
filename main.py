@@ -83,7 +83,7 @@ with dev_jr:
                 st.dataframe(df_jobs[(df_jobs['Empresa'] == company_selected) & (df_jobs['Vaga'] == job_selected)], 2000)
 
 with estagio:  
-    if st.button('Search'):
+    if st.button('Search Internship'):
         df_estagio = df_builder_estagios()    
         df_estagio = df_estagio.sort_values(by=['Data'], ascending=False)
         
