@@ -130,7 +130,8 @@ with estagio:
 with custom:
    
     params = st.text_input("Type your search and press enter", '')   
-    if params != '':   
+    custom_search = st.button('Custom Search')
+    if custom_search:   
         
         
         df_estagio = df_builder_custom(params)    
