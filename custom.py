@@ -13,7 +13,7 @@ import streamlit as st
 from datetime import datetime
 
 
-@st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
+
 def df_builder_custom(param): 
     url = "https://www.linkedin.com/jobs/search?keywords={}&location=Brazil&locationId=&geoId=106057199&f_TPR=r2592000&f_WT=2&f_E=1%2C2&position=1&pageNum=0".format(param)
 
