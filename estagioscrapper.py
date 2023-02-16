@@ -12,7 +12,7 @@ import streamlit as st
 from datetime import datetime
 
 
-@st.experimental_memo
+
 def df_builder_estagios():
     url = "https://www.linkedin.com/jobs/search?keywords=Estagio&location=Brasil&locationId=&geoId=106057199&f_TPR=r2592000&f_WT=2&position=1&pageNum=0"
 
