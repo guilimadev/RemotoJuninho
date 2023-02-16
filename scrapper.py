@@ -107,6 +107,7 @@ def df_builder():
     now = datetime.now()
     current_time = now.strftime("%d/%m/%Y - %H:%M:%S")
     st.write("Last Update: ", current_time)
+    st.write('Number of jobs found: ' + str(len(jobs)))
 
     df_jobs = pd.DataFrame({"Vaga": jobs_title, "Empresa": empresa, "Data": data, "Link": link})   
     return df_jobs

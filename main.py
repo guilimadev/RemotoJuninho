@@ -43,7 +43,7 @@ with dev_jr:
         df_jobs = df_jobs.sort_values(by=['Data'], ascending=False)
         
         
-        st.write('Number of jobs found: ' + str(len(df_jobs.index)))
+        
 
         listof_companys = np.empty(1)
         listof_companys = np.append(listof_companys, "All")
